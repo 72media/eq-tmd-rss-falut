@@ -122,7 +122,7 @@
             margin-top: 2px;
         }
         .brand-datetime {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             color: #c8d0da;
             text-align: right;
@@ -132,6 +132,7 @@
             border-radius: 20px;
             border: 1px solid var(--hairline);
             line-height: 1.6;
+            font-variant-numeric: tabular-nums;
         }
         .brand-datetime .day-label {
             color: #8fcbff;
@@ -139,8 +140,8 @@
         }
         @media (max-width:640px) {
             .brand-datetime {
-                font-size: 12px;
-                padding: 2px 10px;
+                font-size: 11px;
+                padding: 2px 8px;
             }
         }
 
@@ -721,7 +722,7 @@
                         </div>
                     </div>
                     <div class="brand-datetime" id="brandDateTime">
-                        <span class="day-label">–</span> – –
+                        <span class="day-label">–</span> – – --:--:--
                     </div>
                 </div>
 
@@ -833,6 +834,12 @@
             // ========== LIVE THAI CLOCK ==========
             function updateBrandDateTime() {
                 var now = new Date();
+                var timeStr = now.toLocaleTimeString('th-TH', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false
+                });
                 var dateParts = now.toLocaleDateString('th-TH', {
                     weekday: 'long',
                     day: 'numeric',
@@ -842,7 +849,7 @@
                 var weekday = dateParts[0] || '';
                 var rest = dateParts.slice(1).join(' ') || '';
                 document.getElementById('brandDateTime').innerHTML =
-                    '<span class="day-label">' + weekday + '</span> ' + rest;
+                    '<span class="day-label">' + weekday + '</span> ' + rest + ' ' + timeStr + ' น.';
             }
 
             function tickClock() {
@@ -1163,7 +1170,6 @@
                         setFaultStatus('โหลดข้อมูลไม่สำเร็จ ลองสลับสวิตช์อีกครั้ง', 'err');
                         document.getElementById('faultCountLabel').textContent = 'โหลดไม่สำเร็จ';
                         document.getElementById('faultBadge').textContent = 'ล้มเหลว';
-                        // ไม่บังคับปิดสวิตช์ ปล่อยให้ผู้ใช้ลองใหม่
                         faultLoading = false;
                     });
             }
@@ -1191,7 +1197,6 @@
                 } else {
                     faultToggleToolbar.checked = checked;
                 }
-                // เรียกใช้การแสดง/ซ่อน
                 if (checked) {
                     loadFaultLayer();
                 } else {
@@ -1212,7 +1217,7 @@
                 syncFaultToggles(this);
             });
 
-            // ===== โหลดรอยเลื่อนอัตโนมัติเมื่อเริ่มต้น (เพราะสวิตช์ถูกเช็ค) =====
+            // ===== โหลดรอยเลื่อนอัตโนมัติเมื่อเริ่มต้น =====
             setTimeout(function() {
                 if (faultToggleToolbar.checked) {
                     loadFaultLayer();
