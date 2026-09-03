@@ -213,60 +213,42 @@
             white-space: nowrap;
         }
 
-        /* switch ขนาดเล็กใน toolbar */
-        .toolbar-fault-toggle {
+        /* ===== ปุ่ม "ดูรอยเลื่อน" ===== */
+        #faultToggleBtn {
+            background: var(--panel-2);
+            border: 1px solid var(--hairline);
+            color: var(--muted);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
-            background: var(--panel-2);
-            border: 1px solid var(--hairline);
-            border-radius: 6px;
-            padding: 4px 10px 4px 8px;
-            font-size: 12px;
-            color: var(--muted);
-            cursor: pointer;
-            transition: background .15s;
+            transition: background .15s, border-color .15s, color .15s;
             flex: none;
+            font-family: 'Sarabun', sans-serif;
         }
-        .toolbar-fault-toggle:hover {
+        #faultToggleBtn:hover {
             background: #242e3a;
             border-color: #3a4653;
         }
-        .toolbar-fault-toggle .switch {
-            position: relative;
-            width: 32px;
-            height: 18px;
-            flex: none;
+        #faultToggleBtn.active {
+            color: var(--text);
+            border-color: var(--sev-low);
+            background: rgba(63, 158, 138, .15);
         }
-        .toolbar-fault-toggle .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .toolbar-fault-toggle .slider-track {
-            position: absolute;
-            cursor: pointer;
-            inset: 0;
-            background: #333e4a;
-            border-radius: 18px;
-            transition: .2s;
-        }
-        .toolbar-fault-toggle .slider-track:before {
-            content: "";
-            position: absolute;
-            height: 14px;
-            width: 14px;
-            left: 2px;
-            top: 2px;
-            background: #e8edf2;
+        #faultToggleBtn .dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            transition: .2s;
+            background: var(--muted-2);
+            display: inline-block;
+            flex: none;
+            transition: background .2s;
         }
-        .toolbar-fault-toggle .switch input:checked+.slider-track {
+        #faultToggleBtn.active .dot {
             background: var(--sev-low);
-        }
-        .toolbar-fault-toggle .switch input:checked+.slider-track:before {
-            transform: translateX(14px);
         }
 
         .sb-legend {
@@ -432,59 +414,9 @@
             transform: rotate(180deg);
         }
 
-        /* ===== CLOCK OVERLAY — BIG & CLEAR ===== */
+        /* ===== นาฬิกากลางจอถูกซ่อน ===== */
         #clockOverlay {
-            position: absolute;
-            top: 18px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 30;
-            text-align: center;
-            pointer-events: none;
-            background: rgba(12, 16, 22, .85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, .1);
-            border-radius: 18px;
-            padding: 20px 42px 22px 42px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, .6);
-            min-width: 280px;
-            user-select: none;
-        }
-        #clockTime {
-            font-size: 54px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            line-height: 1.05;
-            color: #ffffff;
-            font-variant-numeric: tabular-nums;
-            text-shadow: 0 2px 12px rgba(0, 0, 0, .5);
-        }
-        #clockDate {
-            font-size: 19px;
-            color: #c8d0da;
-            margin-top: 6px;
-            font-weight: 500;
-            letter-spacing: .6px;
-            text-shadow: 0 1px 8px rgba(0, 0, 0, .4);
-        }
-        #clockDate .day-label {
-            color: #8fcbff;
-            font-weight: 600;
-        }
-        @media (max-width:640px) {
-            #clockOverlay {
-                top: 10px;
-                padding: 12px 18px 14px 18px;
-                min-width: auto;
-                border-radius: 14px;
-            }
-            #clockTime {
-                font-size: 32px;
-            }
-            #clockDate {
-                font-size: 14px;
-            }
+            display: none !important;
         }
 
         /* ===== Leaflet popup ===== */
@@ -555,156 +487,6 @@
         .leaflet-control-attribution a {
             color: var(--muted) !important;
         }
-
-        /* ===== FAULT PANEL (Right) — เปิดเริ่มต้น ===== */
-        #faultPanel {
-            position: absolute;
-            top: 0;
-            right: 0;
-            height: 100%;
-            width: 320px;
-            background: var(--panel);
-            border-left: 1px solid var(--hairline);
-            z-index: 30;
-            display: flex;
-            flex-direction: column;
-            transition: margin-right .32s cubic-bezier(.4, 0, .2, 1);
-            box-shadow: -8px 0 24px rgba(0, 0, 0, .35);
-        }
-        #faultPanel.collapsed {
-            margin-right: -320px;
-        }
-        @media (max-width:640px) {
-            #faultPanel {
-                width: 82vw;
-            }
-            #faultPanel.collapsed {
-                margin-right: -82vw;
-            }
-        }
-
-        .fp-header {
-            padding: 18px 20px 14px 20px;
-            border-bottom: 1px solid var(--hairline);
-            background: linear-gradient(180deg, var(--panel-2), var(--panel));
-        }
-        .fp-header h2 {
-            font-size: 16px;
-            font-weight: 600;
-            margin: 0 0 4px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .fp-header h2 .badge {
-            font-size: 11px;
-            font-weight: 400;
-            background: rgba(79, 163, 255, .15);
-            color: var(--focus);
-            padding: 0 10px;
-            border-radius: 12px;
-            line-height: 20px;
-        }
-        .fp-header p {
-            font-size: 12px;
-            color: var(--muted);
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        .fp-toggle-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--hairline);
-            background: rgba(255, 255, 255, .02);
-        }
-        .fp-toggle-label {
-            font-size: 14px;
-            font-weight: 500;
-        }
-        .fp-toggle-sub {
-            font-size: 12px;
-            color: var(--muted-2);
-            margin-top: 2px;
-        }
-
-        .fp-body {
-            padding: 16px 20px;
-            overflow-y: auto;
-            flex: 1;
-        }
-        .fp-legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--text);
-            margin-bottom: 10px;
-        }
-        .fp-legend-item .swatch {
-            width: 24px;
-            height: 4px;
-            border-radius: 2px;
-            flex: none;
-        }
-        .fp-status {
-            font-size: 12px;
-            color: var(--muted-2);
-            margin-top: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, .03);
-            border: 1px solid var(--hairline);
-        }
-        .fp-status .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--muted-2);
-            flex: none;
-        }
-        .fp-status.ready .dot {
-            background: var(--sev-low);
-        }
-        .fp-status.err .dot {
-            background: var(--sev-high);
-        }
-
-        #faultCollapseTab {
-            position: absolute;
-            top: 20px;
-            right: 0;
-            z-index: 25;
-            background: var(--panel);
-            border: 1px solid var(--hairline);
-            border-right: none;
-            width: 28px;
-            height: 56px;
-            border-radius: 8px 0 0 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--muted);
-            box-shadow: -2px 0 10px rgba(0, 0, 0, .25);
-            transition: right .32s cubic-bezier(.4, 0, .2, 1);
-        }
-        #faultCollapseTab svg {
-            width: 15px;
-            height: 15px;
-            transition: transform .32s;
-        }
-        #faultCollapseTab.flipped svg {
-            transform: rotate(180deg);
-        }
-        #faultPanel.collapsed~#faultCollapseTab {
-            right: 0;
-        }
     </style>
 </head>
 <body>
@@ -746,14 +528,11 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>
                         รีเฟรชข้อมูล
                     </button>
-                    <!-- ปุ่มเปิด/ปิดรอยเลื่อนใน toolbar -->
-                    <label class="toolbar-fault-toggle" title="แสดง/ซ่อนรอยเลื่อนบนแผนที่">
-                        <span style="margin-right:2px;">รอยเลื่อน</span>
-                        <span class="switch">
-                            <input type="checkbox" id="faultToggleToolbar" checked />
-                            <span class="slider-track"></span>
-                        </span>
-                    </label>
+                    <!-- ปุ่ม "ดูรอยเลื่อน" -->
+                    <button id="faultToggleBtn" title="แสดง/ซ่อนรอยเลื่อนบนแผนที่">
+                        <span class="dot"></span>
+                        ดูรอยเลื่อน
+                    </button>
                     <span id="lastUpdated">ยังไม่อัปเดต</span>
                 </div>
             </div>
@@ -781,43 +560,7 @@
         <!-- ===== MAP WRAP ===== -->
         <div id="mapWrap">
             <div id="map"></div>
-
-            <!-- ===== BIG CLOCK OVERLAY ===== -->
-            <div id="clockOverlay">
-                <div id="clockTime">--:--:--</div>
-                <div id="clockDate"><span class="day-label">–</span> – –</div>
-            </div>
-
-            <!-- ===== FAULT COLLAPSE TAB (right) ===== -->
-            <div id="faultCollapseTab" title="เปิด/ปิดรอยเลื่อน">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 18l6-6-6-6"/></svg>
-            </div>
-
-            <!-- ===== FAULT PANEL (right) — เปิดเริ่มต้น ===== -->
-            <aside id="faultPanel" class="">
-                <div class="fp-header">
-                    <h2>
-                        รอยเลื่อนมีพลัง
-                        <span class="badge" id="faultBadge">กำลังโหลด…</span>
-                    </h2>
-                    <p>แนวรอยเลื่อนที่มีพลังในประเทศไทยและพื้นที่ใกล้เคียง</p>
-                </div>
-                <div class="fp-toggle-row">
-                    <div>
-                        <div class="fp-toggle-label">แสดงรอยเลื่อนบนแผนที่</div>
-                        <div class="fp-toggle-sub" id="faultCountLabel">กำลังโหลด…</div>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="faultTogglePanel" checked />
-                        <span class="slider-track"></span>
-                    </label>
-                </div>
-                <div class="fp-body">
-                    <div class="fp-legend-item"><span class="swatch" style="background:#fb6033"></span> รอยเลื่อนทั่วไป</div>
-                    <div class="fp-legend-item"><span class="swatch" style="background:#ff2d2d"></span> รอยเลื่อนเสี่ยงสูง / เฝ้าระวัง</div>
-                    <div class="fp-status" id="faultStatus"><span class="dot"></span><span id="faultStatusText">กำลังโหลดข้อมูลรอยเลื่อน…</span></div>
-                </div>
-            </aside>
+            <div id="clockOverlay" style="display:none;"></div>
         </div>
     </div>
 
@@ -852,30 +595,8 @@
                     '<span class="day-label">' + weekday + '</span> ' + rest + ' ' + timeStr + ' น.';
             }
 
-            function tickClock() {
-                var now = new Date();
-                var timeStr = now.toLocaleTimeString('th-TH', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: false
-                });
-                var dateParts = now.toLocaleDateString('th-TH', {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                }).split(' ');
-                var weekday = dateParts[0] || '';
-                var rest = dateParts.slice(1).join(' ') || '';
-                document.getElementById('clockTime').textContent = timeStr + ' น.';
-                document.getElementById('clockDate').innerHTML =
-                    '<span class="day-label">' + weekday + '</span> ' + rest;
-                // อัปเดตที่หัวข้อด้วย
-                updateBrandDateTime();
-            }
-            tickClock();
-            setInterval(tickClock, 1000);
+            updateBrandDateTime();
+            setInterval(updateBrandDateTime, 1000);
 
             // ========== MAP SETUP ==========
             var map = L.map('map', { zoomControl: false, attributionControl: true }).setView([13.7, 100.5], 6);
@@ -952,7 +673,7 @@
 
                 return items.map(function(el, idx) {
                     var title = getTag(el, null, 'title') || (el.getElementsByTagName('title')[0] || {}).textContent ||
-                    '';
+                        '';
                     var link = (el.getElementsByTagName('link')[0] || {}).textContent || '';
                     var lat = parseFloat(getTag(el, geoNS, 'lat', 'geo:lat'));
                     var lng = parseFloat(getTag(el, geoNS, 'long', 'geo:long'));
@@ -1048,7 +769,7 @@
                 document.getElementById('statCount').textContent = quakes.length;
                 document.getElementById('statMax').textContent = isFinite(maxMag) ? maxMag.toFixed(1) : '–';
                 document.getElementById('statLatest').textContent = isFinite(nearestHours) ? nearestHours.toFixed(1) :
-                '–';
+                    '–';
             }
 
             function setActive(id) {
@@ -1105,23 +826,17 @@
             }
 
             document.getElementById('refreshBtn').addEventListener('click', fetchRss);
-
             fetchRss();
             setInterval(fetchRss, 5 * 60 * 1000);
 
-            // ========== FAULT PANEL COLLAPSE ==========
-            var faultPanel = document.getElementById('faultPanel');
-            var faultCollapseTab = document.getElementById('faultCollapseTab');
-            faultCollapseTab.addEventListener('click', function() {
-                faultPanel.classList.toggle('collapsed');
-                faultCollapseTab.classList.toggle('flipped');
-                setTimeout(function() { map.invalidateSize(); }, 400);
-            });
-
-            // ========== FAULT GEOJSON LAYER ==========
+            // ============================================================
+            // ========== FAULT LAYER — ปุ่ม "ดูรอยเลื่อน" ==========
+            // ============================================================
             var faultLayer = null;
             var faultGeoData = null;
             var faultLoading = false;
+            var faultBtn = document.getElementById('faultToggleBtn');
+            var faultVisible = false;
 
             function extractStrokeColor(desc) {
                 if (!desc) return '#fb6033';
@@ -1134,49 +849,12 @@
                 return { color: color, weight: 2.5, opacity: 0.9 };
             }
 
-            function setFaultStatus(text, state) {
-                var el = document.getElementById('faultStatus');
-                var textEl = document.getElementById('faultStatusText');
-                el.className = 'fp-status' + (state ? ' ' + state : '');
-                textEl.textContent = text;
-            }
-
-            function loadFaultLayer() {
-                if (faultGeoData) {
-                    addFaultLayerToMap();
-                    return;
-                }
-                if (faultLoading) return;
-                faultLoading = true;
-                setFaultStatus('กำลังโหลดข้อมูลรอยเลื่อน…');
-                document.getElementById('faultCountLabel').textContent = 'กำลังโหลด…';
-                document.getElementById('faultBadge').textContent = 'โหลด…';
-
-                fetch(FAULT_URL, { cache: 'no-store' })
-                    .then(function(res) {
-                        if (!res.ok) throw new Error('HTTP ' + res.status);
-                        return res.json();
-                    })
-                    .then(function(geojson) {
-                        faultGeoData = geojson;
-                        addFaultLayerToMap();
-                        var count = (geojson.features || []).length;
-                        document.getElementById('faultCountLabel').textContent = count + ' เส้นทาง';
-                        document.getElementById('faultBadge').textContent = count + ' เส้น';
-                        setFaultStatus('โหลดข้อมูลสำเร็จ', 'ready');
-                        faultLoading = false;
-                    })
-                    .catch(function(err) {
-                        setFaultStatus('โหลดข้อมูลไม่สำเร็จ ลองสลับสวิตช์อีกครั้ง', 'err');
-                        document.getElementById('faultCountLabel').textContent = 'โหลดไม่สำเร็จ';
-                        document.getElementById('faultBadge').textContent = 'ล้มเหลว';
-                        faultLoading = false;
-                    });
-            }
-
             function addFaultLayerToMap() {
                 if (!faultGeoData) return;
-                if (faultLayer) { map.removeLayer(faultLayer); }
+                if (faultLayer) {
+                    map.removeLayer(faultLayer);
+                    faultLayer = null;
+                }
                 faultLayer = L.geoJSON(faultGeoData, {
                     style: faultStyle,
                     onEachFeature: function(feature, layer) {
@@ -1186,48 +864,71 @@
                 }).addTo(map);
             }
 
-            // ===== จัดการสวิตช์ทั้งสองให้ซิงค์กัน =====
-            var faultToggleToolbar = document.getElementById('faultToggleToolbar');
-            var faultTogglePanel = document.getElementById('faultTogglePanel');
-
-            function syncFaultToggles(from) {
-                var checked = from.checked;
-                if (from === faultToggleToolbar) {
-                    faultTogglePanel.checked = checked;
-                } else {
-                    faultToggleToolbar.checked = checked;
+            function loadFaultData(callback) {
+                if (faultGeoData) {
+                    if (callback) callback();
+                    return;
                 }
-                if (checked) {
-                    loadFaultLayer();
-                } else {
+                if (faultLoading) return;
+                faultLoading = true;
+                faultBtn.textContent = 'กำลังโหลด...';
+                faultBtn.disabled = true;
+
+                fetch(FAULT_URL, { cache: 'no-store' })
+                    .then(function(res) {
+                        if (!res.ok) throw new Error('HTTP ' + res.status);
+                        return res.json();
+                    })
+                    .then(function(geojson) {
+                        faultGeoData = geojson;
+                        faultLoading = false;
+                        faultBtn.disabled = false;
+                        if (callback) callback();
+                    })
+                    .catch(function(err) {
+                        console.error('โหลดรอยเลื่อนล้มเหลว:', err);
+                        faultLoading = false;
+                        faultBtn.disabled = false;
+                        faultBtn.textContent = '⚠️ โหลดล้มเหลว';
+                        setTimeout(function() {
+                            faultBtn.textContent = 'ดูรอยเลื่อน';
+                            faultBtn.classList.remove('active');
+                            faultVisible = false;
+                        }, 2000);
+                    });
+            }
+
+            function toggleFault() {
+                if (faultVisible) {
+                    // ซ่อน
                     if (faultLayer) {
                         map.removeLayer(faultLayer);
                         faultLayer = null;
                     }
-                    document.getElementById('faultBadge').textContent = 'ปิด';
-                    document.getElementById('faultCountLabel').textContent = 'ปิดการแสดงผล';
-                    setFaultStatus('ปิดการแสดงรอยเลื่อน', '');
+                    faultVisible = false;
+                    faultBtn.classList.remove('active');
+                    faultBtn.textContent = 'ดูรอยเลื่อน';
+                } else {
+                    // แสดง
+                    if (faultGeoData) {
+                        addFaultLayerToMap();
+                        faultVisible = true;
+                        faultBtn.classList.add('active');
+                        faultBtn.textContent = 'ซ่อนรอยเลื่อน';
+                    } else {
+                        loadFaultData(function() {
+                            if (faultGeoData) {
+                                addFaultLayerToMap();
+                                faultVisible = true;
+                                faultBtn.classList.add('active');
+                                faultBtn.textContent = 'ซ่อนรอยเลื่อน';
+                            }
+                        });
+                    }
                 }
             }
 
-            faultToggleToolbar.addEventListener('change', function(e) {
-                syncFaultToggles(this);
-            });
-            faultTogglePanel.addEventListener('change', function(e) {
-                syncFaultToggles(this);
-            });
-
-            // ===== โหลดรอยเลื่อนอัตโนมัติเมื่อเริ่มต้น =====
-            setTimeout(function() {
-                if (faultToggleToolbar.checked) {
-                    loadFaultLayer();
-                }
-            }, 500);
-
-            // ===== ปรับขนาดแผนที่เมื่อเปิด/ปิด fault panel =====
-            faultCollapseTab.addEventListener('click', function() {
-                setTimeout(function() { map.invalidateSize(); }, 400);
-            });
+            faultBtn.addEventListener('click', toggleFault);
 
         })();
     </script>
